@@ -1,8 +1,20 @@
 {
+  "name": "get-script-tag-vars",
+  "version": "1.0.0",
+  "author": {
+    "name": "Mihai Rotaru",
+    "email": "mihai.rotaru@gmx.com"
+  },
+  "scripts": {
+    "test": "node test.js"
+  },
   "dependencies": {
     "cheerio": "^1.0.0-rc.1",
     "escodegen": "^1.8.1",
     "esprima": "^4.0.0",
     "estraverse": "^4.2.0"
+  },
+  "devDependencies": {
+    "tape": "^4.6.3"
   }
 }
