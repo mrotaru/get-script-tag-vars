@@ -2,11 +2,22 @@ const cheerio = require('cheerio')
 const esprima = require('esprima')
 const estraverse = require('estraverse')
 const escodegen = require('escodegen')
+const vm = require('vm')
 
-const evaluate = (js) => {
+const prop = (obj, propPath) => propPath
+  .split('.')
+  .reduce((o, p) => o[p], obj)
+
+const evaluate = (js, varName) => {
   try {
-    let retVal = eval(`(${js})`)
-    return retVal
+    const sandbox = {window: {}}
+    const script = new vm.Script(`${varName}=${js}`)
+    const ctx = new vm.createContext(sandbox)
+    const value = script.runInContext(ctx)
+    return {
+      value,
+      sandbox,
+    }
   } catch (ex) {
     throw new Error(`could not eval ${js}\nexception: ${ex}`)
   }
@@ -40,7 +51,7 @@ module.exports = function getScriptTagVars (html, vars) {
           const varName = node.id.name
           if (~varsArray.indexOf(varName)) {
             let str = escodegen.generate(node.init, opts)
-            retVal[varName] = evaluate(str)
+            retVal[varName] = evaluate(str).value
           }
         }
         if (node.type === 'AssignmentExpression') {
@@ -48,7 +59,8 @@ module.exports = function getScriptTagVars (html, vars) {
           let propName = getVarNameFromAssignmentExpression(node.left)
           if (~varsArray.indexOf(propName)) {
             let str = escodegen.generate(node.right, opts)
-            retVal[varName] = evaluate(str)
+            let res = evaluate(str, varName)
+            retVal[varName] = prop(res.sandbox, varName)
           }
         }
       }
