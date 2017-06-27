@@ -1,4 +1,4 @@
-# get-script-tag-vars
+# get-script-tag-vars [![Build Status](https://travis-ci.org/mrotaru/get-script-tag-vars.svg?branch=master)](https://travis-ci.org/mrotaru/get-script-tag-vars)
 
 Parse given HTML, look for `script` tags and extract values for given variables.
 
