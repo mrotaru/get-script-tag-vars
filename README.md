@@ -1,5 +1,7 @@
 # get-script-tag-vars
 
+Parse given HTML, look for `script` tags and extract values for given variables.
+
 Intended use case is to help with integration testing server-rendered apps - more
 specifically, to enable checking variables like `__INITIAL_STATE__`.
 
@@ -20,10 +22,9 @@ or an array if multiple.
 const getScriptTagVars = require('get-script-tag-vars')
 let html = '<html><script>window.foo=42; var bar="bar"</script></html>'
 
-let foo = getScriptTagVars(html, 'foo')
-// => 42
-
-let vars = getScriptTagVars(html, ['window.foo', 'bar', 'baz'])
+let foo = getScriptTagVars(html, 'window.foo') // => 42
+let bar = getScriptTagVars(html, 'bar') // => 'bar'
+let obj = getScriptTagVars(html, ['window.foo', 'bar', 'baz'])
 // => { 'window.foo': 42, 'bar': 'bar', 'baz': undefined }
 ```
 
