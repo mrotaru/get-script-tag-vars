@@ -5,6 +5,10 @@
     "name": "Mihai Rotaru",
     "email": "mihai.rotaru@gmx.com"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mrotaru/get-script-tag-vars.git"
+  },
   "scripts": {
     "test": "node test.js"
   },
